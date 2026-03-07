@@ -289,7 +289,7 @@ class Config_Ui(object):
         threading.Thread(target=_do_test, daemon=True).start()
 
     def _on_apikey_changed(self, text):
-        """API Key 输入内容变化时，若与上次测试的 key 不同则清空测试状态。"""
+        # API Key 输入内容变化时，若与上次测试的 key 不同则清空测试状态。
         status = self.dialog_config.get("answer_config", {}).get("api_test_status", {})
         if status.get("tested") and status.get("tested_key", "") != text.strip():
             self.dialog_config["answer_config"]["api_test_status"] = {"tested": False}
@@ -297,7 +297,6 @@ class Config_Ui(object):
             self.api_test_result.setStyleSheet("font: 8pt '微软雅黑'; color: #fa8c16;")
 
     def toggle_llm_config(self):
-        # 逻辑：勾选随机做答 -> 禁用 APIKey 框
         if self.is_random_answer.isChecked():
             self.llm_widget.setEnabled(False)
         else:

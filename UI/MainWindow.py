@@ -419,7 +419,7 @@ class MainWindow_Ui(QtCore.QObject):
         self._ws_flush_thread.start()
 
     def _fetch_and_emit_user_info(self, sessionid):
-        # 子线程：拉取用户信息后 emit 信号更新右侧面板。"""
+        # 子线程：拉取用户信息后 emit 信号更新右侧面板。
         try:
             code, data = get_user_info(sessionid)
             if code != 0:
