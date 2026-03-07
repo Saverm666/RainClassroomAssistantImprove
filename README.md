@@ -1,2 +1,18 @@
-# RainClassroomAssistantImprove
-雨课堂助手
+# RainClassroomAssitantImprove
+- 原 **开源项目**: [RainClassroomAssitant](https://github.com/TrickyDeath/RainClassroomAssitant.git)
+- 在此基础上我进行了如下 **优化**:
+  - 优化了 **多线程轮询逻辑**，下课或无课时从固定等待 30 秒改为可以在 **配置** 页面修改，并在状态栏实时显示活动状态，默认 3 秒
+  - 添加了 **签到延迟**，防止一上课就签到，同样可在 **配置** 页面修改，默认延迟 15 秒
+  - 信息面板添加了 **题目查看** 的调试输出，因为返回的 problem 的 answers 其实是空的，所以只能自己答
+  - 添加了 **题目延时处理**，如果题目是延时的，应该尝试 重新答题
+  - 添加了 **接入LLM来答题** 的功能，把题目数据 dump 成 json 文件，然后送给 LLM 处理，只需在 **配置** 页面填上 **API key**，并进行 **接口测试**，成功后即可使用。如果想要答题无关正确率随机做答，可以在 **配置** 页面勾选 **自动答题**，然后勾选 **随机做答**
+  - **登录界面** 放在 **主窗口** 右边，能更清晰地看到 **登录状态**，**API 测试状态**
+- **接入教程**：
+  
+  > 目前我用的是 DeepSeek 的 api
+  - 首先去到：[DeepSeek Platform](platform.deepseek.com)
+  - 然后 **充值余额**：
+    - ![image-20260307235502501](./static/image1.png)
+  - 创建 **API key**
+    - ![image-20260307235547709](./static/image2.png)
+  - 最后在 **配置页面** 填上即可
