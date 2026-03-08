@@ -6,7 +6,7 @@ import re
 import websocket
 import json
 from openai import OpenAI
-from Scripts.Utils import get_user_info, dict_result, calculate_waittime, say_something
+from Scripts.Utils import get_user_info, dict_result, calculate_waittime, say_something, get_config_dir
 
 wss_url = "wss://www.yuketang.cn/wsapp/"
 
@@ -127,11 +127,11 @@ class Lesson:
                 self.config["answer_config"]["answer_delay"]["custom"]["time"]
             )
             if wait_time != 0:
-                meg = "%s检测到问题，将在%s秒后自动回答，答案为%s" % (self.lessonname, wait_time, answer)
+                meg = "将在%s秒后自动回答，答案为%s" % (wait_time, answer)
                 self.add_message(meg, 3)
                 time.sleep(wait_time)
             else:
-                meg = "%s检测到问题，剩余时间小于15秒，将立即自动回答，答案为%s" % (self.lessonname, answer)
+                meg = "剩余时间小于15秒，将立即自动回答，答案为%s" % answer
                 self.add_message(meg, 3)
             data = {"problemId": problemid, "problemType": problemtype, "dt": int(time.time()), "result": answer}
             r = requests.post(
@@ -149,9 +149,9 @@ class Lesson:
                 return False
         else:
             if limit == -1:
-                meg = "%s的问题没有找到答案，该题不限时，请尽快前往雨课堂回答" % self.lessonname
+                meg = "该题不限时，请尽快前往雨课堂回答" % self.lessonname
             else:
-                meg = "%s的问题没有找到答案，请在%s秒内前往雨课堂回答" % (self.lessonname, limit)
+                meg = "请在%s秒内前往雨课堂回答" % limit
             self.add_message(meg, 4)
             return False
 
@@ -309,7 +309,8 @@ class Lesson:
                     }
                 }
                 try:
-                    with open("quiz_dump.json", "a", encoding="utf-8") as f:
+                    quiz_dump_dir = get_config_dir() + "\\quiz_dump.json"
+                    with open(quiz_dump_dir, "a", encoding="utf-8") as f:
                         f.write(json.dumps(quiz_dump, ensure_ascii=False) + "\n")
                 except Exception as e:
                     print(f"写入 JSON 失败: {e}")
